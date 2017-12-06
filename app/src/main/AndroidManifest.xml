@@ -10,6 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_logo"
         android:supportsRtl="true"
+        android:noHistory="false"
+        android:excludeFromRecents="false"
         android:theme="@style/AppTheme">
 
 
@@ -22,6 +24,7 @@
         <activity android:name=".MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:excludeFromRecents="true"
+            android:label="@string/app_name"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,9 +35,9 @@
             <!-- The meta-data element is needed for versions lower than 4.1 -->
 
         </activity>
-        <activity android:name=".Main_Games"/>
-        <activity android:name=".Game_Activity"/>
-        <activity android:name=".Pesquisa_Activity"
+        <activity android:name=".Main_Games" android:label="@string/app_name"/>
+        <activity android:name=".Game_Activity" android:label="@string/app_name"/>
+        <activity android:name=".Pesquisa_Activity" android:label="@string/app_name"
             android:parentActivityName="com.example.polo.techsales2_0.Main_Games">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -42,7 +45,7 @@
             </activity>
 
         <activity android:name=".Perfil_Usuario"
-
+            android:label="@string/app_name"
             android:parentActivityName="com.example.polo.techsales2_0.Main_Games">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
