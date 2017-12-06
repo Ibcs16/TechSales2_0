@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TechSales</string>
+    <string name="opcao_um">Meu perfil</string>
+    <string name="opcao_dois">Pesquisar</string>
+    <string name="opcao_tres">Sair</string>
+    <string name="clientId">374594023974-lfsqo0pi1st6iml7oih28nk5b0d4qnvf.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">238490146686915</string>
+    <string name="fb_login_protocol_scheme">fb238490146686915</string>
+</resources>

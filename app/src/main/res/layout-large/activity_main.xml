@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/loadin_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical|center_horizontal"
+
+        >
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="84dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TECHSALES"
+                android:textSize="48sp"
+                android:gravity="center_horizontal"
+                android:textColor="@android:color/white"/>
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="O JOGO QUE QUISER,\n ONDE QUISER"
+                android:gravity="center_horizontal"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="15dp"
+                android:textSize="16sp"/>
+
+            <LinearLayout
+                android:layout_width="275dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal">
+
+                <EditText
+                    android:id="@+id/etUserNome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:ems="10"
+                    android:hint="Digite o email"
+                    android:inputType="textPersonName"
+                    android:textColor="@android:color/white" />
+
+                <EditText
+                    android:id="@+id/etUserSenha"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:ems="10"
+                    android:hint="Digite a senha"
+                    android:inputType="textPassword"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnLoginG"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_margin="10dp"
+                android:background="#fff"
+                android:drawableLeft="@drawable/googleg_standard_color_18"
+                android:padding="10dp"
+                android:text="GOOGLE"
+                android:textColor="@android:color/holo_red_dark" />
+
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/button_facebook_login"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_centerInParent="true"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textStyle="bold"
+                />
+
+
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center_horizontal"
+                android:text="NÃO POSSUI CONTA? \n CONTATE O GERENTE"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
+    </LinearLayout>
+</ScrollView>

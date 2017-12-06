@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "374594023974",
+    "firebase_url": "https://techsales-4291a.firebaseio.com",
+    "project_id": "techsales-4291a",
+    "storage_bucket": "techsales-4291a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374594023974:android:2ecd28178566b27e",
+        "android_client_info": {
+          "package_name": "com.example.polo.techsales2_0"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "374594023974-lfsqo0pi1st6iml7oih28nk5b0d4qnvf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.polo.techsales2_0",
+            "certificate_hash": "17bb59df5bf39be1e290e20d9610ed8f83b39941"
+          }
+        },
+        {
+          "client_id": "374594023974-ujkh8uci3c988o8vu19r7g61sc9q969s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANdUgW0gsMkwB_6ZQyh8nFF8-Sw42mQz0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "374594023974-ujkh8uci3c988o8vu19r7g61sc9q969s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_bias="0.0"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <FrameLayout
+                android:id="@+id/framePoster"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:elevation="7dp"
+                >
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/imgPoster"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    >
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/imgMini"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="20dp"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/txTitulo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="N/D"
+                        android:textColor="@android:color/white"
+                        android:textSize="28dp" />
+
+                    <Button
+                        android:id="@+id/button"
+                        android:layout_width="80dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/btn_favoritar"
+                        android:onClick="onClickInsertFav_Jogo"
+                        android:text="FAVORITAR"
+                        android:textColor="@android:color/white"
+                        android:textSize="12dp" />
+
+
+                    <TextView
+                        android:id="@+id/txQtd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="N/D"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="15dp" />
+
+                    <Button
+                        android:id="@+id/button2"
+                        android:layout_width="150dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/btn_add"
+                        android:drawableLeft="@android:drawable/ic_menu_add"
+                        android:padding="2dp"
+                        android:text="ADICIONAR"
+                        android:textColor="@android:color/white" />
+
+
+
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:text="SOBRE:"
+                    android:textColor="@android:color/white" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/retangulo_info">
+
+                    <TextView
+                        android:id="@+id/txSobre"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="N/D"
+                        android:textColor="@android:color/white" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:text="INFORMAÇÕES:"
+                    android:textColor="@android:color/white" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/retangulo_info">
+
+                    <TextView
+                        android:id="@+id/txInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="N/D"
+                        android:textColor="@android:color/white" />
+
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="3"
+                    android:layout_margin="5dp"
+                    >
+
+                    <Button
+                        android:id="@+id/buttonTrailer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="10dp"
+                        android:layout_weight="1"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn_add"
+                        android:text="Assistir Trailer"
+                        android:textColor="@android:color/white"
+                        android:textSize="12dp" />
+
+                    <Button
+                        android:id="@+id/buttonShare"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="10dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn_add"
+                        android:text="Compartilhar"
+                        android:textColor="@android:color/white"
+                        android:textSize="12dp" />
+
+                    <Button
+                        android:id="@+id/btSalva"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="10dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn_add"
+                        android:text="Salvar Capa"
+                        android:textColor="@android:color/white"
+                        android:textSize="12dp" />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>

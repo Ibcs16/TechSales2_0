@@ -1,0 +1,42 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.lucasp.telas"
+    >
+    <!--
+    <item
+        android:id="@+id/action_opcao1"
+        android:orderInCategory="100"
+        android:title="Voltar"
+        android:icon="@drawable/ic_action_voltar"
+        app:showAsAction="always" />-->
+
+    <item
+        android:id="@+id/action_opcao2"
+        android:orderInCategory="100"
+        android:title="Pesquisar"
+        android:icon="@drawable/ic_action_pesquisar"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_opcao4"
+        android:orderInCategory="100"
+        android:title="Tela Principal"
+        android:icon="@drawable/ic_action_home"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_opcao3"
+        android:orderInCategory="100"
+        android:title="Perfil"
+        android:icon="@drawable/ic_action_user"
+        app:showAsAction="always" />
+
+
+
+    <item
+        android:id="@+id/opcao_tres"
+        android:orderInCategory="100"
+        android:title="Sair"
+        app:showAsAction="ifRoom" />
+</menu>
