@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/loadin_background">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/loadin_background"
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -15,8 +15,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_weight="2">
+                android:layout_weight="2"
+                android:orientation="horizontal">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -27,9 +27,9 @@
                         android:id="@+id/ibEdit"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
                         android:background="@android:color/transparent"
                         app:srcCompat="@android:drawable/ic_menu_edit" />
 
@@ -37,8 +37,8 @@
                         android:id="@+id/imgPhoto"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        android:layout_centerVertical="true"
                         android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
                         android:layout_gravity="center_horizontal|center_vertical"
                         android:layout_marginLeft="149dp"
                         android:layout_marginStart="149dp"
@@ -61,9 +61,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:background="@android:color/white"
                     android:orientation="vertical"
-                    android:layout_weight="1"
                     android:padding="15dp">
 
                     <LinearLayout
@@ -88,7 +88,8 @@
                             android:background="@drawable/retangulo_user_info"
                             android:ems="10"
                             android:enabled="false"
-                            android:inputType="textPersonName" />
+                            android:inputType="textEmailAddress"
+                            android:padding="5dp" />
 
                     </LinearLayout>
 
@@ -114,7 +115,8 @@
                             android:background="@drawable/retangulo_user_info"
                             android:ems="10"
                             android:enabled="false"
-                            android:inputType="textPersonName" />
+                            android:inputType="textEmailAddress"
+                            android:padding="5dp" />
 
                     </LinearLayout>
 
@@ -125,17 +127,14 @@
                         android:orientation="horizontal">
 
 
-
-
-
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_gravity="right"
                         android:layout_marginBottom="10dp"
+                        android:orientation="horizontal"
 
                         >
 
@@ -144,11 +143,11 @@
                             android:layout_width="45dp"
                             android:layout_height="35dp"
                             android:layout_weight="1"
-                            android:visibility="gone"
                             android:background="@color/colorPrimaryDark"
                             android:text="Salvar"
                             android:textColor="@android:color/white"
-                            android:textSize="8sp" />
+                            android:textSize="8sp"
+                            android:visibility="gone" />
                         
                     </LinearLayout>
 

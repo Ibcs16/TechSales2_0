@@ -6,12 +6,12 @@
 
     <application
         android:allowBackup="true"
+        android:excludeFromRecents="false"
         android:icon="@mipmap/ic_launcher_logo"
         android:label="@string/app_name"
+        android:noHistory="false"
         android:roundIcon="@mipmap/ic_launcher_logo"
         android:supportsRtl="true"
-        android:noHistory="false"
-        android:excludeFromRecents="false"
         android:theme="@style/AppTheme">
 
 
@@ -19,12 +19,12 @@
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=
                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
-        <activity android:name=".MainActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:excludeFromRecents="true"
             android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".MainActivity"
+            android:excludeFromRecents="false"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustResize"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,9 +35,9 @@
             <!-- The meta-data element is needed for versions lower than 4.1 -->
 
         </activity>
-        <activity android:name=".Main_Games" android:label="@string/app_name"/>
-        <activity android:name=".Game_Activity" android:label="@string/app_name"/>
-        <activity android:name=".Pesquisa_Activity" android:label="@string/app_name"
+        <activity android:name=".Main_Games" android:excludeFromRecents="false" android:label="@string/app_name"/>
+        <activity android:name=".Game_Activity" android:excludeFromRecents="false" android:label="@string/app_name"/>
+        <activity android:name=".Pesquisa_Activity" android:excludeFromRecents="false" android:label="@string/app_name"
             android:parentActivityName="com.example.polo.techsales2_0.Main_Games">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -45,6 +45,7 @@
             </activity>
 
         <activity android:name=".Perfil_Usuario"
+            android:excludeFromRecents="false"
             android:label="@string/app_name"
             android:parentActivityName="com.example.polo.techsales2_0.Main_Games">
             <meta-data

@@ -2,9 +2,11 @@ package com.example.polo.techsales2_0;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -58,31 +60,16 @@ public class Main_Games_Fragment extends android.support.v4.app.Fragment {
 
     //OnHeadlineSelectedListener mCallback;
 
-
+    OnItemPressListener mCall;
+    FirebaseFirestore db;
     private bdJogo bd;
     private ShimmerFrameLayout container,container2;
     private List<Jogo> jogos;
     private List<Jogo> jogosLanc;
     private RecyclerView rV, rV2;
-
-
     private ImageButton reload1,reload2;
-
-
-
     private List<Login> logins;
-
-    OnItemPressListener mCall;
-    FirebaseFirestore db;
-
-
-
     private MeuAdapter adapter;
-
-    public interface OnItemPressListener {
-        public void onItemPressed(String id);
-    }
-
 
     @Override
     public void onAttach(Context context) {
@@ -96,7 +83,6 @@ public class Main_Games_Fragment extends android.support.v4.app.Fragment {
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup group, final Bundle savedInstanceState) {
 
@@ -105,46 +91,38 @@ public class Main_Games_Fragment extends android.support.v4.app.Fragment {
 
 
 
-        reload1 = (ImageButton) view.findViewById(R.id.reload1);
-        reload2 = (ImageButton) view.findViewById(R.id.reload2);
+        reload1 = view.findViewById(R.id.reload1);
+        reload2 = view.findViewById(R.id.reload2);
 
 
 
-        rV2 = (RecyclerView) view.findViewById(R.id.rVJog_Lanc);
-        rV = (RecyclerView) view.findViewById(R.id.rVJog_Rec);
+        rV2 = view.findViewById(R.id.rVJog_Lanc);
+        rV = view.findViewById(R.id.rVJog_Rec);
 
-        container = (ShimmerFrameLayout) view.findViewById(R.id.shimmer_view_container1);
-        container2 = (ShimmerFrameLayout) view.findViewById(R.id.shimmer_view_container2);
+        container = view.findViewById(R.id.shimmer_view_container1);
+        container2 = view.findViewById(R.id.shimmer_view_container2);
 
-        for(int i=0;i==1000;i++){
 
-        }
-        container.stopShimmerAnimation();
-        container2.stopShimmerAnimation();
+
+        container.startShimmerAnimation();
+        container2.startShimmerAnimation();
 
         db = FirebaseFirestore.getInstance();
-        //loadJogosFireBase();
-        //onClickInsertJogo(adapter, jogos) ;
-        LoadJogos task = new LoadJogos();
-        task.execute();
+
 
         return view;
 
 
     }
 
-
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
 
-        container = (ShimmerFrameLayout) getView().findViewById(R.id.shimmer_view_container1);
-        container2 = (ShimmerFrameLayout) getView().findViewById(R.id.shimmer_view_container2);
 
-        container.startShimmerAnimation();
-        container2.startShimmerAnimation();
+        LoadJogos task = new LoadJogos();
+        task.execute();
 
         reload1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,34 +140,6 @@ public class Main_Games_Fragment extends android.support.v4.app.Fragment {
 
 
     }
-
-
-    private class LoadJogos extends AsyncTask<String,Void,String>
-    {
-
-
-        @Override
-        protected String doInBackground(String... strings) {
-            try{
-                loadJogosFireBase();
-                return "Jogos baixados";
-            }catch (Exception e){
-                Log.i("LoadJogos","Erro -> "+e.getStackTrace());
-                return "Download falhou";
-            }
-
-        }
-
-        @Override
-        protected void onPostExecute(String string){
-            container.stopShimmerAnimation();
-            container2.stopShimmerAnimation();
-            setAdapter1();
-            setAdapter2();
-        }
-    }
-
-
 
     private void loadJogosFireBase() {
 
@@ -211,11 +161,11 @@ public class Main_Games_Fragment extends android.support.v4.app.Fragment {
                                 jogo.setJoDesc(document.getString("joDesc"));
                                 jogo.setJoMini(document.getString("joMini"));
                                 jogo.setJoPoster(document.getString("joPoster"));
-                                Log.d("Jogo",""+jogo.toString());
+                                //Log.d("Jogo",""+jogo.toString());
                                 jogos.add(jogo);
-                                Log.d("Firestore", document.getId() + " => " + document.getData());
+                                //Log.d("Firestore", document.getId() + " => " + document.getData());
                             }
-
+                            setAdapter1();
                         } else {
                             Log.d("Firestore", "Error getting documents: ", task.getException());
                         }
@@ -245,14 +195,16 @@ public class Main_Games_Fragment extends android.support.v4.app.Fragment {
                                 jogo.setJoMini(document.getString("joMini"));
                                 jogo.setJoPoster(document.getString("joPoster"));
 
-                                Log.d("Firestore", document.getId() + " => " + document.getData());
+                                //Log.d("Firestore", document.getId() + " => " + document.getData());
                                 Log.d("Firestore", ""+Integer.parseInt(""+jogo.getJoDataLanc()));
                                 if((Integer.parseInt(""+jogo.getJoDataLanc())>=(2017-1))&&(Integer.parseInt(""+jogo.getJoDataLanc())<=(2017+1))){
+                                    Log.d("Firestore", document.getId() + " => " + document.getData());
                                     jogosLanc.add(jogo);
                                 }
 
                             }
-                            Log.d("Firestore", "Jogos: "+jogosLanc.toString());
+                            setAdapter2();
+                            //Log.d("Firestore", "Jogos: "+jogosLanc.toString());
 
                         } else {
                             Log.d("Firestore", "Error getting documents: ", task.getException());
@@ -264,7 +216,6 @@ public class Main_Games_Fragment extends android.support.v4.app.Fragment {
 
 
     }
-
 
     private void setAdapter1(){
 
@@ -295,8 +246,9 @@ public class Main_Games_Fragment extends android.support.v4.app.Fragment {
                 LinearLayoutManager.HORIZONTAL, false);
 
 
-        rV.setLayoutManager(layout1);
-        rV.getAdapter().notifyDataSetChanged();
+            rV.setLayoutManager(layout1);
+            rV.getAdapter().notifyDataSetChanged();
+            container.stopShimmerAnimation();
         }catch (java.lang.NullPointerException e){
 
             Log.i("SetAdapter","Erro ->"+e.getMessage());
@@ -335,11 +287,11 @@ public class Main_Games_Fragment extends android.support.v4.app.Fragment {
 
             rV2.setLayoutManager(layout);
             rV2.getAdapter().notifyDataSetChanged();
+            container2.stopShimmerAnimation();
         }catch (java.lang.NullPointerException e){
             Log.i("SetAdapter2","Erro ->"+e.getMessage());
         }
     }
-
 
     //Arrumar reloads
     public void reloadRV(){
@@ -369,18 +321,11 @@ public class Main_Games_Fragment extends android.support.v4.app.Fragment {
                         }
                     }
                 });*/
-        for(int i=0;i==1000;i++){
-
-        }
-        container.stopShimmerAnimation();
-        container2.stopShimmerAnimation();
                 LoadJogos task = new LoadJogos();
                 task.execute();
 
 
     }
-
-
 
     public void reloadRV2(){
         /*db.collection("jogo")
@@ -426,6 +371,39 @@ public class Main_Games_Fragment extends android.support.v4.app.Fragment {
         LoadJogos task = new LoadJogos();
         task.execute();
 
+    }
+
+
+    public interface OnItemPressListener {
+        void onItemPressed(String id);
+    }
+
+    private class LoadJogos extends AsyncTask<String,Void,String>
+    {
+
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try{
+                loadJogosFireBase();
+
+                Log.i("LoadJogos","carregou");
+                return "Jogos baixados";
+            }catch (Exception e){
+                Log.i("LoadJogos","Erro -> "+e.getStackTrace());
+                return "Download falhou";
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String string){
+            container.stopShimmerAnimation();
+            container2.stopShimmerAnimation();
+            setAdapter1();
+            setAdapter2();
+            Log.i("SetAdapter","Carregou Adapter");
+        }
     }
 
 

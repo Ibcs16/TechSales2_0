@@ -2,6 +2,7 @@ package com.example.polo.techsales2_0;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.polo.techsales2_0.bd.bdJogo;
 import com.example.polo.techsales2_0.bean.Jogo;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -36,44 +38,27 @@ import static android.content.ContentValues.TAG;
  */
 
 public class Pesquisa_Fragment extends Fragment {
-    private EditText campo;
-    private bdJogo bd;
-    private RecyclerView rV;
-    private List<Jogo> jogos;
-    MeuAdapter adapter;
     String pesquisa = "";
     FirebaseFirestore db;
-    List<Jogo> encontrados;
-
-
+    ShimmerFrameLayout container;
+    private EditText campo;
+    private RecyclerView rV;
+    private List<Jogo> jogos;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup group, @Nullable Bundle savedInstanceState) {
         db = FirebaseFirestore.getInstance();
-        View view = inflater.inflate(R.layout.pesquisa_jogo_fragment,container,false);
-        campo = (EditText) view.findViewById(R.id.etPesquisa);
-        rV = (RecyclerView) view.findViewById(R.id.rVPesquisa);
+        View view = inflater.inflate(R.layout.pesquisa_jogo_fragment, group, false);
+        campo = view.findViewById(R.id.etPesquisa);
+        rV = view.findViewById(R.id.rVPesquisa);
 
+        container = view.findViewById(R.id.shimmer_pesquisa);
+        container.startShimmerAnimation();
         db = FirebaseFirestore.getInstance();
-        inicioApp();
+
+        loadJogosFireBase();
         return view;
-
-    }
-
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if(outState!=null){
-        pesquisa = campo.getText().toString();
-            Log.i("i","worked as a charm");
-            Log.i("pega",campo.getText().toString());
-
-        }else{
-
-
-        }
 
     }
 
@@ -81,19 +66,17 @@ public class Pesquisa_Fragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        db = FirebaseFirestore.getInstance();
-
-        inicioApp();
 
         campo.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (campo.getText().equals("")){
-                    inicioApp();
-                    Log.i("Nome: ",""+charSequence.toString());
-                }else{
-                    pesquisa(charSequence.toString());
-                    Log.i("Nome: ",""+charSequence.toString());
+                if (campo.getText().equals("")) {
+                    loadJogosFireBase();
+                    Log.i("Nome: ", "" + charSequence.toString());
+                } else {
+                    pesquisa = campo.getText().toString();
+                    pesquisa();
+                    Log.i("Nome: ", "" + charSequence.toString());
 
                 }
 
@@ -102,161 +85,186 @@ public class Pesquisa_Fragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (campo.getText().equals("")){
-                    inicioApp();
-                    Log.i("Nome: ",""+charSequence.toString());
-                }else{
-                    Log.i("Nome: ",""+charSequence.toString());
-                    pesquisa(charSequence.toString());}
-
+                if (campo.getText().equals("")) {
+                    loadJogosFireBase();
+                    Log.i("Nome: ", "" + charSequence.toString());
+                } else {
+                    Log.i("Nome: ", "" + charSequence.toString());
+                    pesquisa = campo.getText().toString();
+                    pesquisa();
+                }
 
 
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (campo.getText().equals("")){
-                    inicioApp();
-                }else{
-                    pesquisa(campo.getText().toString());}
+                if (campo.getText().equals("")) {
+                    loadJogosFireBase();
+                } else {
+                    pesquisa = campo.getText().toString();
+                    pesquisa();
+                }
             }
 
 
         });
     }
 
-
-public void inicioApp() {
-
-
-    db.collection("jogo")
-            .get()
-            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        encontrados = new ArrayList<>();
-                        for (DocumentSnapshot document : task.getResult()) {
-                            Log.d(TAG, document.getId() + " => " + document.getData());
-
-                            Jogo jogo = new Jogo();
-                            jogo.setJoId(document.getId());
-                            jogo.setJoConsole(document.getString("joConsole"));
-                            jogo.setJoDataLanc(document.getString("joDataLanc"));
-                            jogo.setJoGenero(document.getString("joGenero"));
-                            jogo.setJoNome(document.getString("joNome"));
-                            jogo.setJoDesc(document.getString("joDesc"));
-                            jogo.setJoMini(document.getString("joMini"));
-                            jogo.setJoPoster(document.getString("joPoster"));
-
-                            encontrados.add(jogo);
-
-                        }
-
-                        setAdapter2();
-                    } else {
-                        Log.d(TAG, "Error getting documents: ", task.getException());
-
-                    }
-                }
-            });
-
-}
-
-
-
-public void pesquisa(String nome){
+    private void loadJogosFireBase() {
 
         db.collection("jogo")
-                .whereEqualTo("joNome",nome)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        encontrados = new ArrayList<>();
-                        for (DocumentSnapshot document : task.getResult()) {
-                            Log.d(TAG, document.getId() + " => " + document.getData());
 
-                            Jogo jogo = new Jogo();
-                            jogo.setJoId(document.getId());
-                            jogo.setJoConsole(document.getString("joConsole"));
-                            jogo.setJoDataLanc(document.getString("joDataLanc"));
-                            jogo.setJoGenero(document.getString("joGenero"));
-                            jogo.setJoNome(document.getString("joNome"));
-                            jogo.setJoDesc(document.getString("joDesc"));
-                            jogo.setJoMini(document.getString("joMini"));
-                            jogo.setJoPoster(document.getString("joPoster"));
-                            Log.i("Jogo: ",""+jogo.toString());
-                            encontrados.add(jogo);
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            jogos = new ArrayList<Jogo>();
+                            for (DocumentSnapshot document : task.getResult()) {
+                                Jogo jogo = new Jogo();
+                                jogo.setJoId(document.getId());
+                                jogo.setJoConsole(document.getString("joConsole"));
+                                jogo.setJoDataLanc(document.getString("joDataLanc"));
+                                jogo.setJoGenero(document.getString("joGenero"));
+                                jogo.setJoNome(document.getString("joNome"));
+                                jogo.setJoDesc(document.getString("joDesc"));
+                                jogo.setJoMini(document.getString("joMini"));
+                                jogo.setJoPoster(document.getString("joPoster"));
+                                //Log.d("Jogo",""+jogo.toString());
+                                jogos.add(jogo);
+                                //Log.d("Firestore", document.getId() + " => " + document.getData());
+                            }
 
+                            setAdapter1();
+
+                        } else {
+                            Log.d("Firestore", "Error getting documents: ", task.getException());
                         }
 
-                        setAdapter2();
-                    } else {
-                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+
+                });
+    }
+
+    private void pesquisaJogosFireBase() {
+
+        db.collection("jogo")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            jogos = new ArrayList<Jogo>();
+                            for (DocumentSnapshot document : task.getResult()) {
+                                Jogo jogo = new Jogo();
+                                jogo.setJoId(document.getId());
+                                jogo.setJoConsole(document.getString("joConsole"));
+                                jogo.setJoDataLanc(document.getString("joDataLanc"));
+                                jogo.setJoGenero(document.getString("joGenero"));
+                                jogo.setJoNome(document.getString("joNome"));
+                                jogo.setJoDesc(document.getString("joDesc"));
+                                jogo.setJoMini(document.getString("joMini"));
+                                jogo.setJoPoster(document.getString("joPoster"));
+                                //Log.d("Jogo",""+jogo.toString());
+                                if (jogo.getJoNome().contains(pesquisa)) {
+                                    jogos.add(jogo);
+                                }
+                                //Log.d("Firestore", document.getId() + " => " + document.getData());
+                            }
+                            setAdapter1();
+                        } else {
+                            Log.d("Firestore", "Error getting documents: ", task.getException());
+                        }
+
+                    }
+
+                });
+    }
+
+    public void pesquisa() {
+
+        PesquisaJogo task = new PesquisaJogo();
+        task.execute();
+
+
+    }
+
+    private void setAdapter1() {
+
+        try {
+            rV.setAdapter(new MeuAdapter(jogos, getActivity(), new MeuAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(Jogo jogo) {
+                    if (jogo != null) {
+
+                        Bundle bundl = new Bundle();
+
+                        bundl.putString("id", jogo.getJoId());
+
+                        bundl.putInt("estado", 0);
+                        Log.i("Id", "" + jogo.getJoId());
+                        Game_Fragment fragGame = new Game_Fragment();
+                        fragGame.setArguments(bundl);
+                        getFragmentManager().beginTransaction().replace(R.id.flContent, fragGame, "Game_Fragment").addToBackStack(null).commit();
+
 
                     }
                 }
-            });
+            }));
+
+            RecyclerView.LayoutManager layout1 = new LinearLayoutManager(getActivity(),
+                    LinearLayoutManager.HORIZONTAL, false);
+
+
+            rV.setLayoutManager(layout1);
+            rV.getAdapter().notifyDataSetChanged();
+            container.stopShimmerAnimation();
+        } catch (java.lang.NullPointerException e) {
+
+            Log.i("SetAdapter", "Erro ->" + e.getMessage());
 
         }
 
 
+    }
 
-        public void atualizaLista(List<Jogo> encontrados){
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (outState != null) {
+            pesquisa = campo.getText().toString();
+            pesquisa();
 
-
-            adapter = new MeuAdapter(encontrados, getContext(), new MeuAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(Jogo jogo) {
-                    Bundle bundl = new Bundle();
-
-                    bundl.putString("id", jogo.getJoId());
-                    bundl.putInt("estado",0);
-
-                    Game_Fragment fragGame = new Game_Fragment();
-                    fragGame.setArguments(bundl);
-                    getFragmentManager().beginTransaction().replace(R.id.flContent, fragGame).addToBackStack(null).commit();
-
-                }
-            });
-            rV.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-
-
-
+        } else {
+            loadJogosFireBase();
         }
 
-    public void setAdapter2() {
+    }
 
-        rV.setAdapter(new MeuAdapter(encontrados, getActivity(), new MeuAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Jogo jogo) {
-                if (jogo != null) {
+    private class PesquisaJogo extends AsyncTask<String, Void, String> {
 
 
-                    Bundle bundl = new Bundle();
-
-                    bundl.putString("id", jogo.getJoId());
-                    bundl.putInt("estado", 0);
-
-                    Log.i("Id", "" + jogo.getJoId());
-                    Game_Fragment fragGame = new Game_Fragment();
-                    fragGame.setArguments(bundl);
-                    getFragmentManager().beginTransaction().replace(R.id.flContent, fragGame, "Game_Fragment").addToBackStack(null).commit();
-
-
-                }
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                pesquisaJogosFireBase();
+                Log.i("LoadJogos", "carregou");
+                return "Jogos baixados";
+            } catch (Exception e) {
+                Log.i("LoadJogos", "Erro -> " + e.getStackTrace());
+                return "Download falhou";
             }
-        }));
 
-        RecyclerView.LayoutManager layout1 = new LinearLayoutManager(getActivity(),
-                LinearLayoutManager.HORIZONTAL, false);
+        }
 
-
-        rV.setLayoutManager(layout1);
-        rV.getAdapter().notifyDataSetChanged();
+        @Override
+        protected void onPostExecute(String string) {
+            container.stopShimmerAnimation();
+            setAdapter1();
+            Log.i("SetAdapter", "Carregou Adapter");
+        }
     }
 }
 
