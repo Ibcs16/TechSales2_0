@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical">
 
 
 
@@ -24,8 +24,8 @@
             <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
             android:layout_weight="1"
+            android:orientation="horizontal"
             >
 
                 <com.facebook.drawee.view.SimpleDraweeView
@@ -38,10 +38,10 @@
 
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:orientation="vertical"
                     >
 
                     <com.facebook.drawee.view.SimpleDraweeView
@@ -67,7 +67,7 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/btn_favoritar"
                     android:onClick="onClickInsertFav_Jogo"
-                    android:text="FAVORITAR"
+                    android:text="@string/game_fav"
                     android:textColor="@android:color/white"
                     android:textSize="12dp" />
 
@@ -90,7 +90,7 @@
                     android:background="@drawable/btn_add"
                     android:drawableLeft="@android:drawable/ic_menu_add"
                     android:padding="2dp"
-                    android:text="ADICIONAR"
+                    android:text="@string/game_add"
                     android:textColor="@android:color/white" />
 
 
@@ -112,9 +112,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="vertical"
                     android:padding="10dp"
-                    android:layout_weight="1"
                     >
 
 
@@ -124,7 +124,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
-                        android:text="SOBRE:"
+                        android:text="@string/game_sobre"
                         android:textColor="@android:color/white" />
 
                     <RelativeLayout
@@ -161,7 +161,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="5dp"
-                        android:text="INFORMAÇÕES:"
+                        android:text="@string/game_info"
                         android:textColor="@android:color/white" />
 
                     <RelativeLayout
@@ -185,9 +185,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
                         android:orientation="horizontal"
                         android:weightSum="3"
-                        android:layout_margin="5dp"
                         >
 
                         <Button
@@ -195,37 +195,37 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:padding="10dp"
-                            android:layout_weight="1"
                             android:layout_margin="10dp"
+                            android:layout_weight="1"
                             android:background="@drawable/btn_add"
-                            android:text="Assistir Trailer"
+                            android:padding="10dp"
+                            android:text="@string/game_trailer"
                             android:textColor="@android:color/white"
                             android:textSize="12dp" />
 
                         <Button
                             android:id="@+id/buttonShare"
-                            android:layout_weight="1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:padding="10dp"
                             android:layout_margin="10dp"
+                            android:layout_weight="1"
                             android:background="@drawable/btn_add"
-                            android:text="Compartilhar"
+                            android:padding="10dp"
+                            android:text="@string/game_share"
                             android:textColor="@android:color/white"
                             android:textSize="12dp" />
 
                         <Button
                             android:id="@+id/btSalva"
-                            android:layout_weight="1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:padding="10dp"
                             android:layout_margin="10dp"
+                            android:layout_weight="1"
                             android:background="@drawable/btn_add"
-                            android:text="Salvar Capa"
+                            android:padding="10dp"
+                            android:text="@string/game_save"
                             android:textColor="@android:color/white"
                             android:textSize="12dp" />
 

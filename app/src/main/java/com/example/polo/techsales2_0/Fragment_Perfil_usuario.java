@@ -49,18 +49,16 @@ import java.util.List;
 
 public class Fragment_Perfil_usuario extends Fragment {
 
+    FirebaseFirestore db;
+    FirebaseUser user;
+    ImageView imgPhoto;
+    TextView qtd;
     private EditText nome,email;
     private ImageButton edit;
     private Button salvar;
     private RecyclerView rV;
     private List<Jogo> jogosFav;
     private List<Jogo> jogosAdd;
-    FirebaseFirestore db;
-    FirebaseUser user;
-    ImageView imgPhoto;
-    TextView qtd;
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -72,16 +70,17 @@ public class Fragment_Perfil_usuario extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_perfil_usuario, container, false);
 
-        imgPhoto = (ImageView) view.findViewById(R.id.imgPhoto);
-        salvar = (Button) view.findViewById(R.id.btnSalvar);
-        nome = (EditText) view.findViewById(R.id.etNome);
-        email = (EditText) view.findViewById(R.id.etEmail);
-        qtd = (TextView) view.findViewById(R.id.txQtd);
+        imgPhoto = view.findViewById(R.id.imgPhoto);
+        salvar = view.findViewById(R.id.btnSalvar);
+        nome = view.findViewById(R.id.etNome);
+        email = view.findViewById(R.id.etEmail);
+        qtd = view.findViewById(R.id.txQtd);
 
-        edit = (ImageButton) view.findViewById(R.id.ibEdit);
-        rV = (RecyclerView) view.findViewById(R.id.rVFav);
+        edit = view.findViewById(R.id.ibEdit);
+        rV = view.findViewById(R.id.rVFav);
 
 
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         return view;
 
@@ -143,7 +142,7 @@ public class Fragment_Perfil_usuario extends Fragment {
 
                 });
 
-        db.collection("jogoAdd")
+        /*db.collection("jogoAdd")
                 .whereEqualTo("joUserKey",""+user.getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -175,13 +174,7 @@ public class Fragment_Perfil_usuario extends Fragment {
 
                 });
 
-
-
-
-    }
-
-
-    public void atualizaQtd(int qtd){
+            */
 
 
     }
@@ -191,7 +184,7 @@ public class Fragment_Perfil_usuario extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        user = FirebaseAuth.getInstance().getCurrentUser();
+
 
         preencherUser();
 
@@ -209,7 +202,7 @@ public class Fragment_Perfil_usuario extends Fragment {
 
 
 
-        salvar.setOnClickListener(new View.OnClickListener() {
+                salvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -253,34 +246,34 @@ public class Fragment_Perfil_usuario extends Fragment {
     }
 
     public  void atualiza(String nome,String email){
-        /*
-        user = FirebaseAuth.getInstance().getCurrentUser();
 
-        UserProfileChangeRequest profileUpdates = new UserProfileUpdates.Builder()
-                .setDisplayName(nome)
-                .setPhotoUri(Uri.parse(""))
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(""+nome)
+                //.setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
                 .build();
 
-
-
         user.updateProfile(profileUpdates)
-                .addCompleteListener(new OnCompleteListener<Void>()){
-                @Override
-                public void onComplete(Task<Void> task){
-                    if(task.isSuccessful()){
-                        //reiniciarFragment
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("Profile: ", "User profile updated.");
+                        }
                     }
+                });
 
-            }
-
-        }*/
-
-
-
-        /*email
-
-         */
-
+        user.updateEmail(""+email)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("Email: ", "User email address updated.");
+                        }
+                    }
+                });
+        this.nome.setEnabled(false);
+        this.email.setEnabled(false);
+        this.salvar.setVisibility(View.INVISIBLE);
     }
 
     public void onClickEditUsuario(EditText nome, EditText email){

@@ -1,8 +1,45 @@
 <resources>
-    <string name="app_name">TechSales</string>
+
+    <!-- MENU -->
+    <string name="app_name">TECHSALES</string>
     <string name="opcao_um">Meu perfil</string>
     <string name="opcao_dois">Pesquisar</string>
     <string name="opcao_tres">Sair</string>
+
+    <!-- LOGIN -->
+    <string name="login_subtitulo">O JOGO QUE QUISER, \n ONDE QUISER</string>
+    <string name="login_email_hint">Insira seu email</string>
+    <string name="login_senha_hint">Insira a senha</string>
+    <string name="login_entrar">ENTRAR</string>
+    <string name="login_contato_hint">NÃO POSSUI CONTA? \n CONTATE-NOS</string>
+
+    <!-- MAIN -->
+    <string name="main_recomendados">RECOMENDADOS:</string>
+    <string name="main_lancamentos">LANÇAMENTOS:</string>
+
+    <!-- PESQUISA -->
+    <string name="pesquisa_nome_jogo_hint">Digite o nome do jogo</string>
+
+    <!-- PERFIL -->
+    <string name="perfil_nome">NOME:</string>
+    <string name="perfil_email">EMAIL:</string>
+    <string name="perfil_favs">FAVORITOS:</string>
+    <string name="perfil_save">SALVAR</string>
+
+    <!-- JOGO -->
+    <string name="game_add">ADICIONAR</string>
+    <string name="game_fav">FAVORITAR</string>
+    <string name="game_sobre">DESCRIÇÃO:</string>
+    <string name="game_info">INFORMAÇÕES:</string>
+    <string name="game_data">DATA DE LANÇAMENTO: </string>
+    <string name="game_console">CONSOLE: </string>
+    <string name="game_genero">GÊNERO: </string>
+    <string name="game_trailer">ASSISTIR TRAILER</string>
+    <string name="game_share">COMPARTILHAR IMAGEM</string>
+    <string name="game_save">SALVAR CAPA</string>
+
+
+
     <string name="clientId">374594023974-lfsqo0pi1st6iml7oih28nk5b0d4qnvf.apps.googleusercontent.com</string>
     <string name="facebook_app_id">238490146686915</string>
     <string name="fb_login_protocol_scheme">fb238490146686915</string>

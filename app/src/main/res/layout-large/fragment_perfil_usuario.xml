@@ -95,7 +95,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="10dp"
-                            android:text="NOME:"
+                            android:text="@string/perfil_nome"
                             android:textSize="18sp" />
 
                         <EditText
@@ -122,7 +122,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="10dp"
-                            android:text="EMAIL:"
+                            android:text="@string/perfil_email"
                             android:textSize="18sp" />
 
                         <EditText
@@ -163,7 +163,7 @@
                             android:layout_height="35dp"
                             android:layout_weight="1"
                             android:background="@color/colorPrimaryDark"
-                            android:text="Salvar"
+                            android:text="@string/perfil_save"
                             android:textColor="@android:color/white"
                             android:textSize="8sp"
                             android:visibility="gone" />
@@ -185,7 +185,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
                             android:layout_marginLeft="15dp"
-                            android:text="FAVORITOS" />
+                            android:text="@string/perfil_favs" />
 
                         <LinearLayout
                             android:layout_width="match_parent"

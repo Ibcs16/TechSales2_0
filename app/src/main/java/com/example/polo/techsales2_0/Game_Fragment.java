@@ -56,6 +56,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -67,31 +68,27 @@ import java.io.IOException;
 
 public class Game_Fragment extends Fragment {
 
+    FirebaseFirestore db;
+    ProgressDialog dialog;
+    int estado = 0;
+    FirebaseUser user;
+    String id = "";
+    Button btnT;
+    Button btCom, btSalva;
+    String URL;
+    //mStorageRef = FirebaseStorage.getInstance().getReference(); fica no oncreat (ja coloquei)
+    StorageReference riversRef;
     private bdLogin lg;
     private bdJogo bd;
     private bdFav_Jogo bd_fj;
-
     private bdConta bd_cont;
     private Jogo jogo;
-    private SimpleDraweeView imgMini,imgPoster;
-    private TextView nome,qtd,sobre,info;
+    private SimpleDraweeView imgMini, imgPoster;
+    private TextView nome, qtd, sobre, info;
     private Button add, fav;
-    FirebaseFirestore db;
-    ProgressDialog dialog;
-    int estado=0;
-    FirebaseUser user;
-    String id="";
-
-    Button btnT;
-    Button btCom,btSalva;
-    String URL;
-    private  String jogoN;
-
-
+    private String jogoN;
     //----Firebase
     private StorageReference mStorageRef;
-    //mStorageRef = FirebaseStorage.getInstance().getReference(); fica no oncreat (ja coloquei)
-    StorageReference riversRef;
 
     //Métodos firebaseDownLoad e firebaseUpload
 
@@ -100,21 +97,20 @@ public class Game_Fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.main_jogo,container,false);
-        add = (Button) view.findViewById(R.id.button2);
-        fav = (Button) view.findViewById(R.id.button);
-        btnT=(Button) view.findViewById(R.id.buttonTrailer);
-        btCom= (Button) view.findViewById(R.id.buttonShare);
-        btSalva  = (Button) view.findViewById(R.id.btSalva);
+        View view = inflater.inflate(R.layout.main_jogo, container, false);
+        add = view.findViewById(R.id.button2);
+        fav = view.findViewById(R.id.button);
+        btnT = view.findViewById(R.id.buttonTrailer);
+        btCom = view.findViewById(R.id.buttonShare);
+        btSalva = view.findViewById(R.id.btSalva);
         user = FirebaseAuth.getInstance().getCurrentUser();
-
 
 
         try {
             estado = getArguments().getInt("estado");
             id = getArguments().getString("id");
-        }catch (NullPointerException e){
-           e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
 
         return view;
@@ -141,7 +137,6 @@ public class Game_Fragment extends Fragment {
         });
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
-
 
 
 // Create a reference to "mountains.jpg"
@@ -188,15 +183,15 @@ public class Game_Fragment extends Fragment {
         try {
             id = getArguments().getString("id");
             estado = getArguments().getInt("estado");
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
 
-        try{
+        try {
 
             inicioJogo(id);
 
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
 
         }
@@ -253,21 +248,21 @@ public class Game_Fragment extends Fragment {
 
                 Map<String, Object> jogFav = new HashMap<>();
 
-                jogFav.put("joDesc", ""+jogo.getJoDesc());
-                jogFav.put("joNome", ""+jogo.getJoNome());
-                jogFav.put("joDataLanc", ""+jogo.getJoDataLanc());
-                jogFav.put("joConsole", ""+jogo.getJoConsole());
-                jogFav.put("joGenero", ""+jogo.getJoGenero());
-                jogFav.put("joMini", ""+jogo.getJoMini());
-                jogFav.put("joPoster", ""+jogo.getJoPoster());
-                jogFav.put("joUserKey",""+user.getUid());
+                jogFav.put("joDesc", "" + jogo.getJoDesc());
+                jogFav.put("joNome", "" + jogo.getJoNome());
+                jogFav.put("joDataLanc", "" + jogo.getJoDataLanc());
+                jogFav.put("joConsole", "" + jogo.getJoConsole());
+                jogFav.put("joGenero", "" + jogo.getJoGenero());
+                jogFav.put("joMini", "" + jogo.getJoMini());
+                jogFav.put("joPoster", "" + jogo.getJoPoster());
+                jogFav.put("joUserKey", "" + user.getUid());
 
                 db.collection("jogoFav")
                         .add(jogFav)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                Toast.makeText(getContext(),"Jogo favoritado com sucesso!",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "Jogo favoritado com sucesso!", Toast.LENGTH_LONG).show();
 
                                 Log.d("firestore", "DocumentSnapshot added with ID: " + documentReference.getId());
                             }
@@ -275,7 +270,7 @@ public class Game_Fragment extends Fragment {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getContext(),"Erro ao favoritar este jogo!",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), "Erro ao favoritar este jogo!", Toast.LENGTH_LONG).show();
                                 Log.w("firestore", "Error adding document", e);
                             }
                         });
@@ -285,13 +280,13 @@ public class Game_Fragment extends Fragment {
 
     }
 
-    public void inicioJogo(String id){
+    public void inicioJogo(String id) {
         Log.i("Fragment JoogoId ---- ", id);
         //pesquisa no firesbase pela key
         DocumentReference docRef;
-        if(estado==0){
+        if (estado == 0) {
             docRef = db.collection("jogo").document(id);
-        }else{
+        } else {
             docRef = db.collection("jogoFav").document(id);
         }
 
@@ -307,27 +302,25 @@ public class Game_Fragment extends Fragment {
                 jogo.setJoDesc(document.getString("joDesc"));
                 jogo.setJoMini(document.getString("joMini"));
                 jogo.setJoPoster(document.getString("joPoster"));
-                Log.d("Fragment Jogo: ",""+jogo.toString());
-                Toast.makeText(getContext(),"Encontrado = >"+document.getId(),Toast.LENGTH_LONG);
+                Log.d("Fragment Jogo: ", "" + jogo.toString());
+                Toast.makeText(getContext(), "Encontrado = >" + document.getId(), Toast.LENGTH_LONG);
 
-                if(jogo.getJoId()==null){
-                    Toast.makeText(getContext(),"Erro",Toast.LENGTH_SHORT).show();
-                }else{
+                if (jogo.getJoId() == null) {
+                    Toast.makeText(getContext(), "Erro", Toast.LENGTH_SHORT).show();
+                } else {
                     preenche(jogo);
                 }
             }
         });
 
 
-
-
     }
 
-    public void preenche(Jogo jogo){
+    public void preenche(Jogo jogo) {
 
 
-        imgMini = (SimpleDraweeView) getView().findViewById(R.id.imgMini);
-        imgPoster = (SimpleDraweeView) getView().findViewById(R.id.imgPoster);
+        imgMini = getView().findViewById(R.id.imgMini);
+        imgPoster = getView().findViewById(R.id.imgPoster);
 
 
         Uri uri = Uri.parse(jogo.getJoMini());
@@ -362,19 +355,19 @@ public class Game_Fragment extends Fragment {
 
         imgPoster.setBackground(imageView.getDrawable());
         */
-        if(jogo==null){
-            Toast.makeText(getContext(),"Erro",Toast.LENGTH_SHORT).show();
-        }else{
-            sobre = (TextView) getView().findViewById(R.id.txSobre);
-            info = (TextView) getView().findViewById(R.id.txInfo);
-            nome = (TextView) getView().findViewById(R.id.txTitulo);
+        if (jogo == null) {
+            Toast.makeText(getContext(), "Erro", Toast.LENGTH_SHORT).show();
+        } else {
+            sobre = getView().findViewById(R.id.txSobre);
+            info = getView().findViewById(R.id.txInfo);
+            nome = getView().findViewById(R.id.txTitulo);
             //qtd = (TextView) findViewById(R.id.txQtd);
-            nome.setText(""+jogo.getJoNome());
-            sobre.setText(""+jogo.getJoDesc());
+            nome.setText("" + jogo.getJoNome());
+            sobre.setText("" + jogo.getJoDesc());
             info.setText(
-                    "Data de lançamento: "+jogo.getJoDataLanc()
-                    +"\n"+"Console: "+jogo.getJoConsole()
-                    +"\n"+"Gênero: "+jogo.getJoGenero());
+                    ""+getString(R.string.game_data) + jogo.getJoDataLanc()
+                            + "\n" + getString(R.string.game_console) + jogo.getJoConsole()
+                            + "\n" + getString(R.string.game_genero) + jogo.getJoGenero());
         }
 
 
@@ -388,6 +381,71 @@ public class Game_Fragment extends Fragment {
                 .into();*/
     }
 
+    public void setId(String id) {
+        id = id;
+    }
+
+    //Método para acessar youtube
+    public void verTrailer1() {
+        jogoN = jogo.getJoNome();
+        URL = "https://www.youtube.com/results?search_query=" + jogoN + "+trailer";
+        watch_video(URL);
+
+    }
+
+    void watch_video(String url) {
+        Intent yt_play = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        Intent chooser = Intent.createChooser(yt_play, "Open With");
+
+        if (yt_play.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(chooser);
+        }
+    }
+
+    //Método para compartilhar
+    public void compartilhar() {
+        jogoN = jogo.getJoDesc();
+        //compartilharImagemeDescricao();
+
+    }
+
+    private void shareIMG() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, jogo.getJoMini());
+        startActivity(intent);
+    }
+
+    //Compartilha texto e imagem
+    public void compartilharImagemeDescricao() {
+
+
+        // Bitmap adv = BitmapFactory.decodeResource(getResources(), jogo.getJoMini());
+
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("image/jpeg");
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        //adv.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+
+        File f = new File(Environment.getExternalStorageDirectory()
+                + File.separator + "temporary_file.jpg");
+        try {
+            f.createNewFile();
+            new FileOutputStream(f).write(bytes.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        share.putExtra(Intent.EXTRA_STREAM, Uri.parse
+                (Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg"));
+
+        share.putExtra(Intent.EXTRA_TEXT, jogoN);
+        startActivity(Intent.createChooser(share, "Share Image"));
+
+
+    }
+
     private class AddJogoJson extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
@@ -396,14 +454,11 @@ public class Game_Fragment extends Fragment {
 
             // Chama de maneira assíncrona o método "insereLivro" da interface do Retrofit.
             final Call<Void> call = iAdd_jogoREST.insereJogo(jogo);
-            call.enqueue(new Callback<Void>()
-            {
+            call.enqueue(new Callback<Void>() {
                 // Em caso de sucesso retorna mensagem de sucesso para o usuário.
                 @Override
-                public void onResponse(Call<Void> call, Response<Void> response)
-                {
-                    if (dialog.isShowing())
-                    {
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (dialog.isShowing()) {
                         dialog.dismiss();
                     }
 
@@ -412,10 +467,8 @@ public class Game_Fragment extends Fragment {
 
                 // Em caso de erro retorna mensagem de erro para o usuário.
                 @Override
-                public void onFailure(Call<Void> call, Throwable t)
-                {
-                    if (dialog.isShowing())
-                    {
+                public void onFailure(Call<Void> call, Throwable t) {
+                    if (dialog.isShowing()) {
                         dialog.dismiss();
                     }
 
@@ -427,7 +480,6 @@ public class Game_Fragment extends Fragment {
         }
 
 
-
         @Override
         protected void onPostExecute(String result) {
 
@@ -436,93 +488,5 @@ public class Game_Fragment extends Fragment {
     }
 
 
-
-
-
-
-    public void setId(String id) {
-        id = id;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-        //Método para acessar youtube
-        public void verTrailer1(){
-            jogoN= jogo.getJoNome();
-            URL="https://www.youtube.com/results?search_query="+jogoN+"+trailer";
-            watch_video(URL);
-
-        }
-
-        void watch_video(String url)
-        {
-            Intent yt_play = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            Intent chooser = Intent.createChooser(yt_play , "Open With");
-
-            if (yt_play .resolveActivity(getActivity().getPackageManager()) != null) {
-                startActivity(chooser);
-            }
-        }
-
-        //Método para compartilhar
-        public void  compartilhar(){
-            jogoN= jogo.getJoDesc();;
-            //compartilharImagemeDescricao();
-
-        }
-
-        private void shareIMG() {
-        Intent intent = new Intent( Intent.ACTION_SEND );
-        intent.setType( "text/plain" );
-        intent.putExtra( Intent.EXTRA_TEXT,jogo.getJoMini());
-        startActivity( intent );
-        }
-
-
-
-
-
-        //Compartilha texto e imagem
-        public void compartilharImagemeDescricao() {
-
-
-           // Bitmap adv = BitmapFactory.decodeResource(getResources(), jogo.getJoMini());
-
-            Intent share = new Intent(Intent.ACTION_SEND);
-            share.setType("image/jpeg");
-
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            //adv.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-
-            File f = new File(Environment.getExternalStorageDirectory()
-                    + File.separator + "temporary_file.jpg");
-            try {
-                f.createNewFile();
-                new FileOutputStream(f).write(bytes.toByteArray());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            share.putExtra(Intent.EXTRA_STREAM,Uri.parse
-                    ( Environment.getExternalStorageDirectory()+ File.separator+"temporary_file.jpg"));
-
-            share.putExtra(Intent.EXTRA_TEXT, jogoN);
-            startActivity(Intent.createChooser(share, "Share Image"));
-
-
-        }
-
-
-
-
-    }
+}
 

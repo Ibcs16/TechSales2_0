@@ -2,9 +2,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/loadin_background">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/loadin_background"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,26 +25,26 @@
                 android:id="@+id/textView7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TECHSALES"
-                android:textSize="48sp"
                 android:gravity="center_horizontal"
-                android:textColor="@android:color/white"/>
+                android:text="@string/app_name"
+                android:textColor="@android:color/white"
+                android:textSize="48sp"/>
 
             <TextView
                 android:id="@+id/textView9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="O JOGO QUE QUISER,\n ONDE QUISER"
-                android:gravity="center_horizontal"
-                android:textColor="@android:color/white"
                 android:layout_marginTop="15dp"
+                android:gravity="center_horizontal"
+                android:text="@string/login_subtitulo"
+                android:textColor="@android:color/white"
                 android:textSize="16sp"/>
 
             <LinearLayout
                 android:layout_width="275dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <EditText
                     android:id="@+id/etUserNome"
@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:ems="10"
-                    android:hint="Digite o email"
+                    android:hint="@string/login_email_hint"
                     android:inputType="textPersonName"
                     android:textColor="@android:color/white" />
 
@@ -62,10 +62,20 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
                     android:ems="10"
-                    android:hint="Digite a senha"
+                    android:hint="@string/login_senha_hint"
                     android:inputType="textPassword"
                     android:textColor="@android:color/white" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/btn_login"
+                android:onClick="onClickLogin"
+                android:text="@string/login_entrar"
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/btnLoginG"
@@ -84,12 +94,12 @@
                 android:id="@+id/button_facebook_login"
                 android:layout_width="150dp"
                 android:layout_height="40dp"
-                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_centerInParent="true"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_margin="10dp"
-                android:padding="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:padding="10dp"
                 android:textStyle="bold"
                 />
 
@@ -102,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:gravity="center_horizontal"
-                android:text="NÃO POSSUI CONTA? \n CONTATE O GERENTE"
+                android:text="@string/login_contato_hint"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
         </LinearLayout>
