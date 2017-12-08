@@ -37,6 +37,8 @@
     <string name="game_trailer">ASSISTIR TRAILER</string>
     <string name="game_share">COMPARTILHAR IMAGEM</string>
     <string name="game_save">SALVAR CAPA</string>
+    <string name="game_carregando">Carregando info...</string>
+    <string name="game_carregando_json">Enviando...</string>
 
 
 

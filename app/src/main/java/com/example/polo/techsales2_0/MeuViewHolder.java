@@ -17,17 +17,16 @@ public class MeuViewHolder extends RecyclerView.ViewHolder {
     final TextView titulo;
     final TextView data;
     final ImageView ivMini;
-    final ImageButton iBFav;
     final View view;
 
 
     public MeuViewHolder(final View itemView) {
         super(itemView);
         view = itemView;
-        titulo = (TextView) itemView.findViewById(R.id.txTitulo);
-        data = (TextView) itemView.findViewById(R.id.txData);
-        ivMini = (ImageView) itemView.findViewById(R.id.iVMini);
-        iBFav = (ImageButton) itemView.findViewById(R.id.iBFav);
+        titulo = itemView.findViewById(R.id.txTitulo);
+        data = itemView.findViewById(R.id.txData);
+        ivMini = itemView.findViewById(R.id.iVMini);
+
 
 
 

@@ -102,12 +102,11 @@ public class Main_Games_Fragment extends android.support.v4.app.Fragment {
         container = view.findViewById(R.id.shimmer_view_container1);
         container2 = view.findViewById(R.id.shimmer_view_container2);
 
-
-
-        container.startShimmerAnimation();
-        container2.startShimmerAnimation();
-
         db = FirebaseFirestore.getInstance();
+
+
+        LoadJogos task = new LoadJogos();
+        task.execute();
 
 
         return view;
@@ -121,8 +120,6 @@ public class Main_Games_Fragment extends android.support.v4.app.Fragment {
 
 
 
-        LoadJogos task = new LoadJogos();
-        task.execute();
 
         reload1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -248,7 +245,7 @@ public class Main_Games_Fragment extends android.support.v4.app.Fragment {
 
             rV.setLayoutManager(layout1);
             rV.getAdapter().notifyDataSetChanged();
-            container.stopShimmerAnimation();
+
         }catch (java.lang.NullPointerException e){
 
             Log.i("SetAdapter","Erro ->"+e.getMessage());
@@ -287,7 +284,7 @@ public class Main_Games_Fragment extends android.support.v4.app.Fragment {
 
             rV2.setLayoutManager(layout);
             rV2.getAdapter().notifyDataSetChanged();
-            container2.stopShimmerAnimation();
+
         }catch (java.lang.NullPointerException e){
             Log.i("SetAdapter2","Erro ->"+e.getMessage());
         }
@@ -383,10 +380,15 @@ public class Main_Games_Fragment extends android.support.v4.app.Fragment {
 
 
         @Override
+        protected void onPreExecute() {
+            container.startShimmerAnimation();
+            container2.startShimmerAnimation();
+        }
+
+        @Override
         protected String doInBackground(String... strings) {
             try{
                 loadJogosFireBase();
-
                 Log.i("LoadJogos","carregou");
                 return "Jogos baixados";
             }catch (Exception e){

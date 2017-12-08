@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,7 +70,6 @@ import java.io.IOException;
 public class Game_Fragment extends Fragment {
 
     FirebaseFirestore db;
-    ProgressDialog dialog;
     int estado = 0;
     FirebaseUser user;
     String id = "";
@@ -78,6 +78,7 @@ public class Game_Fragment extends Fragment {
     String URL;
     //mStorageRef = FirebaseStorage.getInstance().getReference(); fica no oncreat (ja coloquei)
     StorageReference riversRef;
+    ProgressDialog dialog;
     private bdLogin lg;
     private bdJogo bd;
     private bdFav_Jogo bd_fj;
@@ -103,8 +104,17 @@ public class Game_Fragment extends Fragment {
         btnT = view.findViewById(R.id.buttonTrailer);
         btCom = view.findViewById(R.id.buttonShare);
         btSalva = view.findViewById(R.id.btSalva);
+
+        db = FirebaseFirestore.getInstance();
+
         user = FirebaseAuth.getInstance().getCurrentUser();
 
+        dialog = new ProgressDialog(getContext());
+        dialog.setMessage(getString(R.string.game_carregando));
+        dialog.setCancelable(false);
+        dialog.setMax(100);
+        dialog.setProgress(0);
+        dialog.show();
 
         try {
             estado = getArguments().getInt("estado");
@@ -113,10 +123,11 @@ public class Game_Fragment extends Fragment {
             e.printStackTrace();
         }
 
+        new CarregaJogoFireBase().execute();
+
         return view;
 
     }
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -171,33 +182,15 @@ public class Game_Fragment extends Fragment {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                         Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                        Toast.makeText(getContext(),"Salvo com sucesso",Toast.LENGTH_LONG);
                         Log.i("Storage", "Deu certo");
                     }
                 });
             }
         });
 
-        db = FirebaseFirestore.getInstance();
-
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        try {
-            id = getArguments().getString("id");
-            estado = getArguments().getInt("estado");
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
-        try {
-
-            inicioJogo(id);
-
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-
-        }
 
 
-        db = FirebaseFirestore.getInstance();
         //FirebaseUser user = FirebaseAuth.getInstance.getCurrentUser();
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,39 +200,10 @@ public class Game_Fragment extends Fragment {
                 task.execute();
                 // Configura e exibe o ProgressDialog.
                 dialog = new ProgressDialog(getContext());
-                dialog.setMessage("Carregando...");
+                dialog.setMessage(getString(R.string.game_carregando_json));
                 dialog.setCancelable(false);
                 dialog.show();
-                /*
-                Map<String, Object> jogAdd = new HashMap<>();
 
-                jogAdd.put("joDesc", ""+jogo.getJoDesc());
-                jogAdd.put("joNome", ""+jogo.getJoNome());
-                jogAdd.put("joDataLanc", ""+jogo.getJoDataLanc());
-                jogAdd.put("joConsole", ""+jogo.getJoConsole());
-                jogAdd.put("joGenero", ""+jogo.getJoGenero());
-                jogAdd.put("joMini", ""+jogo.getJoMini());
-                jogAdd.put("joPoster", ""+jogo.getJoPoster());
-                jogAdd.put("joUserKey",""+user.getUid());
-
-
-                // Add a new document with a generated ID
-                db.collection("jogoAdd")
-                        .add(jogAdd)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Toast.makeText(getContext(),"Jogo adicionado com sucesso",Toast.LENGTH_LONG).show();
-                                Log.d("firestore", "DocumentSnapshot added with ID: " + documentReference.getId());
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getContext(),"Erro ao adicionar este jogo!",Toast.LENGTH_LONG).show();
-                                Log.w("firestore", "Error adding document", e);
-                            }
-                        });*/
             }
         });
         fav.setOnClickListener(new View.OnClickListener() {
@@ -264,7 +228,7 @@ public class Game_Fragment extends Fragment {
                             public void onSuccess(DocumentReference documentReference) {
                                 Toast.makeText(getContext(), "Jogo favoritado com sucesso!", Toast.LENGTH_LONG).show();
 
-                                Log.d("firestore", "DocumentSnapshot added with ID: " + documentReference.getId());
+                                //Log.d("firestore", "DocumentSnapshot added with ID: " + documentReference.getId());
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -307,6 +271,7 @@ public class Game_Fragment extends Fragment {
 
                 if (jogo.getJoId() == null) {
                     Toast.makeText(getContext(), "Erro", Toast.LENGTH_SHORT).show();
+                    getFragmentManager().beginTransaction().remove(getParentFragment());
                 } else {
                     preenche(jogo);
                 }
@@ -330,31 +295,7 @@ public class Game_Fragment extends Fragment {
         Uri uri1 = Uri.parse(jogo.getJoPoster());
 
         imgPoster.setImageURI(uri1);
-        /*Picasso.with(getContext())
-                .load(jogo.getJoMini())
-                .placeholder(R.drawable.preloader)   // optional
-                .error(R.drawable.no_image)      // optional
-                //.resize(100, 76)                    // optional
-                //.fit()
 
-                //.centerInside()
-                .into(imgMini);
-
-        ImageView imageView = new ImageView(getContext());
-
-        Picasso.with(getContext())
-                .load(jogo.getJoPoster())
-                .placeholder(R.drawable.placeholder)   // optional
-                .error(R.drawable.no_image)
-                //.resize(80, 80)
-                .fit()
-
-                //.centerInside()
-
-                .into(imageView);
-
-        imgPoster.setBackground(imageView.getDrawable());
-        */
         if (jogo == null) {
             Toast.makeText(getContext(), "Erro", Toast.LENGTH_SHORT).show();
         } else {
@@ -365,20 +306,12 @@ public class Game_Fragment extends Fragment {
             nome.setText("" + jogo.getJoNome());
             sobre.setText("" + jogo.getJoDesc());
             info.setText(
-                    ""+getString(R.string.game_data) + jogo.getJoDataLanc()
-                            + "\n" + getString(R.string.game_console) + jogo.getJoConsole()
-                            + "\n" + getString(R.string.game_genero) + jogo.getJoGenero());
+                    ""+getString(R.string.game_data)+" " + jogo.getJoDataLanc()
+                            + "\n" + getString(R.string.game_console)+" " + jogo.getJoConsole()
+                            + "\n" + getString(R.string.game_genero)+" " + jogo.getJoGenero());
         }
 
 
-        /*Picasso.with(this)
-                .load(jogo.getJog_Miniatura())
-                .placeholder(R.drawable.placeholder)   // optional
-                .error(R.drawable.no_image)      // optional
-                //.resize(100, 100)                    // optional
-                .fit()
-                .centerInside()
-                .into();*/
     }
 
     public void setId(String id) {
@@ -444,6 +377,37 @@ public class Game_Fragment extends Fragment {
         startActivity(Intent.createChooser(share, "Share Image"));
 
 
+    }
+
+    protected class CarregaJogoFireBase extends AsyncTask<Void,Void,Void>{
+
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            inicioJogo(id);
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            if(dialog.isShowing()) {
+                dialog.setProgress(dialog.getProgress() + 1);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if(dialog.isShowing()){
+            dialog.dismiss();
+            }
+        }
     }
 
     private class AddJogoJson extends AsyncTask<String, Void, String> {

@@ -10,28 +10,40 @@
 
 
 
-    <EditText
-        android:id="@+id/etPesquisa"
-        android:layout_width="266dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="15dp"
-
-        android:hint="@string/pesquisa_nome_jogo_hint"
-        />
-
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_pesquisa"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
 
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rVPesquisa"
+        <EditText
+            android:id="@+id/etPesquisa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+
+            android:hint="@string/pesquisa_nome_jogo_hint" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_pesquisa"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item_view"/>
+            android:layout_gravity="center">
 
-    </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rVPesquisa"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                tools:listitem="@layout/item_view"/>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+    </LinearLayout>
+
 
 </LinearLayout>
