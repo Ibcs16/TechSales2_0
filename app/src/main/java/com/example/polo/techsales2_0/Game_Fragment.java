@@ -266,8 +266,8 @@ public class Game_Fragment extends Fragment {
                 jogo.setJoDesc(document.getString("joDesc"));
                 jogo.setJoMini(document.getString("joMini"));
                 jogo.setJoPoster(document.getString("joPoster"));
-                Log.d("Fragment Jogo: ", "" + jogo.toString());
-                Toast.makeText(getContext(), "Encontrado = >" + document.getId(), Toast.LENGTH_LONG);
+                //Log.d("Fragment Jogo: ", "" + jogo.toString());
+                //Toast.makeText(getContext(), "Encontrado = >" + document.getId(), Toast.LENGTH_LONG);
 
                 if (jogo.getJoId() == null) {
                     Toast.makeText(getContext(), "Erro", Toast.LENGTH_SHORT).show();
